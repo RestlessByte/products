@@ -5,16 +5,24 @@ import random
 N = int(input("Введите количество элементов списка: "))
 list_nums = [random.randint(-30, 50) for _ in range(N)]
 series_count = 0
-is_in_series = False
+in_series = False
 
 print(f"Список: {list_nums}")
 
+# Перебираем список, начиная со второго элемента
 for i in range(1, len(list_nums)):
-    if list_nums[i] * list_nums[i - 1] < 0:
-        if not is_in_series:
+    # Проверяем на чередование знаков
+    if (list_nums[i] < 0 and list_nums[i - 1] > 0) or (list_nums[i] > 0 and list_nums[i - 1] < 0):
+        # Если обнаружено чередование, увеличиваем счетчик серий
+        if not in_series:
             series_count += 1
-            is_in_series = True
+            in_series = True
     else:
-        is_in_series = False
+        # Если чередования нет, выходим из текущей серии
+        in_series = False
+
+# Учитываем завершение последней серии
+if in_series:
+    series_count += 1
 
 print(f"Количество серий знакочередующихся чисел: {series_count}")
